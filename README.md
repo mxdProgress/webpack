@@ -96,7 +96,13 @@
             rules: [{
                     test: /\.css$/,
                     use: [
-                        { loader: 'style-loader' },
+                        { 
+                            loader: 'style-loader',
+                            //如果希望插入优先级高的化就设置
+                            options:{
+                                insertAt:'top'
+                            }
+                        },
                         { loader: 'css-loader' },
                     ]
                 },
@@ -124,7 +130,7 @@
         rules: [{
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,  //相当于把head中的style样式转成link的形式引用到页面上
                     { loader: 'css-loader' },
                 ]
             },
@@ -132,7 +138,7 @@
                 test: /\.less$/,
                 use: [
                     // { loader: 'style-loader' },
-                    MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,  //相当于把head中的style样式转成link的形式引用到页面上
                     { loader: 'css-loader' },
                     { loader: 'less-loader' }
                 ]
@@ -146,6 +152,64 @@
     ]
 
     ```
+
+> css兼容加前缀
+
+* 安装 cnpm i -D postcss-loader autoprefixer postcss
+* 创建postcss.config.js文件，配置如下：
+```
+module.exports = {
+    plugins: [
+        require('autoprefixer')("last 100 versions")
+    ]
+}
+```
+* webpack.config.js 配置如下：
+```
+...
+ module: {
+    rules: [{
+            test: /\.css$/,
+            use: [
+                MiniCssExtractPlugin.loader, //相当于把head中的style样式转成link的形式引用到页面上
+                { loader: 'css-loader' },
+                { loader: 'postcss-loader' } //在css-loader style-loader之后，在预编译loder之前（sass-loader、less-loder）
+            ]
+        },
+        {
+            test: /\.less$/,
+            use: [
+                // { loader: 'style-loader' },
+                MiniCssExtractPlugin.loader,
+                { loader: 'css-loader' },
+                { loader: 'postcss-loader' },  //在css-loader style-loader之后，在预编译loder之前（sass-loader、less-loder）
+                { loader: 'less-loader' }
+            ]
+        }
+    ]
+}
+```
+> css压缩
+
+* 安装 cnpm i -D optimize-css-assets-webpack-plugin
+```
+let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
+module.exports = {
+    optimization: {
+        minimizer: [new OptimizeCSSAssetsPlugin({})],
+    }
+}
+```
+* 这样配置在生产模式下css会压缩，但是js会被修改默认设置（没有压缩了），所以要在装插件完善，如下：
+```
+let TerserJSPlugin = require('terser-webpack-plugin');
+let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
+module.exports = {
+    optimization: {
+        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    }
+}
+```
 
 
 

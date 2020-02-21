@@ -1,8 +1,11 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 let MiniCssExtractPlugin = require('mini-css-extract-plugin') //抽离css代码
+let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin') //压缩css
+let TerserJSPlugin = require('terser-webpack-plugin') //压缩js
+let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
-    mode: 'development',
+    mode: 'development', //production development
     entry: './src/index.js',
     output: {
         filename: 'bundle.[hash:7].js',
@@ -14,12 +17,16 @@ module.exports = {
         contentBase: './dist',
         open: true
     },
+    optimization: {
+        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
+    },
     module: {
         rules: [{
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader, //相当于把head中的style样式转成link的形式引用到页面上
                     { loader: 'css-loader' },
+                    { loader: 'postcss-loader' }
                 ]
             },
             {
@@ -28,6 +35,7 @@ module.exports = {
                     // { loader: 'style-loader' },
                     MiniCssExtractPlugin.loader,
                     { loader: 'css-loader' },
+                    { loader: 'postcss-loader' },
                     { loader: 'less-loader' }
                 ]
             }
@@ -44,6 +52,7 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'main.css'
-        })
+        }),
+        new CleanWebpackPlugin()
     ]
 }
