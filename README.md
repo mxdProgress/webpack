@@ -1,11 +1,12 @@
 ## webpack4.x 打包配置
 
 > 基本配置
-    * 首先，根目录下npm init 初始化创建一个package.json文件
-    * 安装 cnpm i -D webpack webpack-cli 
-    * 创建一个webpack.config.js文件
-    * src下创建一个入口文件index.js 
-    * 配置webpack.config.js文件，配置如下：
+
+* 首先，根目录下npm init 初始化创建一个package.json文件
+* 安装 cnpm i -D webpack webpack-cli 
+* 创建一个webpack.config.js文件
+* src下创建一个入口文件index.js 
+* 配置webpack.config.js文件，配置如下：
 
     ```
     module.exports = {
@@ -18,7 +19,7 @@
     }
 
     ```
-    * 配置package.json  "scripts" 对象
+* 配置package.json  "scripts" 对象
 
     ```
 
@@ -30,12 +31,12 @@
 
 
 > HtmlWebpackPlugin 配置
-    * 安装 cnpm i -D html-webpack-plugin
-    * src 文件夹下新建一个index.html文件作为模板，通过html-webpack-plugin插件生成一个虚拟的index.html并且默认引入了js文件，打包到dist目录下
+
+* 安装 cnpm i -D html-webpack-plugin
+* src 文件夹下新建一个index.html文件作为模板，通过html-webpack-plugin插件生成一个虚拟的index.html并且默认引入了js文件，打包到dist目录下
 
     ```
     .....
-
     let HtmlWebpackPlugin = require('html-webpack-plugin')
     plugins: [
         new HtmlWebpackPlugin({
@@ -48,15 +49,14 @@
         })
     ]
 
-
     ```
 
 > webpack-dev-server 服务配置
-    * 安装 cnpm i -D webpack-dev-server 
+
+* 安装 cnpm i -D webpack-dev-server 
 
     ```
     .....
-
     module.exports = {
         mode: 'development',
         entry: './src/index.js',
@@ -74,8 +74,7 @@
 
 
     ```
-
-    * 配置package.json  "scripts" 对象
+* 配置package.json  "scripts" 对象
 
     ```
     
@@ -84,18 +83,15 @@
     }
 
 
-
-
 > 样式处理
 
-    *css-loader //类似处理@import 'a.css'
-    *syle-loader //插入html文件得head里面
-    *less-loader //处理less文件
-    *//处理样式从右向左，从下往上原则
+* css-loader //类似处理@import 'a.css'
+* syle-loader //插入html文件得head里面
+* less-loader //处理less文件
+* //处理样式从右向左，从下往上原则
 
     ```
     .....
-
     module: {
             rules: [{
                     test: /\.css$/,
@@ -119,11 +115,10 @@
 
 > 抽离css代码
 
-    * 安装 cnpm i -D mini-css-extract-plugin
+* 安装 cnpm i -D mini-css-extract-plugin
 
     ```
     .....
-
     let MiniCssExtractPlugin = require('mini-css-extract-plugin')
     module: {
         rules: [{
