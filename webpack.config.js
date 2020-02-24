@@ -38,6 +38,15 @@ module.exports = {
                     { loader: 'postcss-loader' },
                     { loader: 'less-loader' }
                 ]
+            },
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             }
         ]
     },

@@ -210,6 +210,35 @@ module.exports = {
     }
 }
 ```
+> babel配置 es6 转成浏览器可读的es5
+
+* 安装 cnpm install -D babel-loader @babel/core @babel/preset-env
+
+```
+...
+module: {
+        rules: [{
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+        }]
+    }    
+```
+
+> 删除dist下压缩文件
+
+* 安装 cnpm install -D clean-webpack-plugin
+
+```
+...
+let { CleanWebpackPlugin } = require('clean-webpack-plugin')
+plugins: [new CleanWebpackPlugin()]  
+```
+
 
 
 
