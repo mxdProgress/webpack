@@ -4,6 +4,6 @@ require('./index.css')
 require('./index.less')
 
 let fun = () => {
-    console.log('aaaa')
+    console.log('ahhj')
 }
 fun();

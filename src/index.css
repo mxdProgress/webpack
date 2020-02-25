@@ -2,4 +2,5 @@ div {
     background: #CCC;
     transform: rotate(-45deg);
     box-sizing: border-box;
+    background: url(../images/0.jpg);
 }

@@ -239,7 +239,68 @@ let { CleanWebpackPlugin } = require('clean-webpack-plugin')
 plugins: [new CleanWebpackPlugin()]  
 ```
 
+> file-loader url-loader 配置
 
+* file-loader 可以指定要复制和放置资源文件的位置，以及如何使用版本哈希命名以获得更好的缓存。此外，这意味着 你可以就近管理图片文件，可以使用相对路径而不用担心部署时 URL 的问题。使用正确的配置，webpack 将会在打包输出中自动重写文件路径为正确的 URL
+* url-loader 允许你有条件地将文件转换为内联的 base-64 URL (当文件小于给定的阈值)，这会减少小文件的 HTTP 请求数。如果文件大于该阈值，会自动的交给 file-loader 处理
 
+* 安装 cnpm install -D url-loader file-loader
+
+```
+...
+{
+    test: /\.(png|jpe?g|gif)$/i,
+    use: [{
+        loader: 'url-loader',
+        options: {
+            limit: 1024 * 10,
+            fallback: {
+                loader: 'file-loader',
+                options: {
+                    name: 'images/[name].[hash:8].[ext]',
+                    outputPath: 'images'
+                }
+            }
+        }
+    }]
+}
+```
+
+> copy-webpack-plugin 配置
+
+* 作用是把指定目标文件复制到指定目录里面
+
+* 安装cnpm i -D copy-webpack-plugin
+
+```
+...
+let CopyPlugin = require('copy-webpack-plugin')
+plugins: [
+        new CopyPlugin([
+            { from: 'doc', to: '' }
+        ])
+]  
+```
+
+> 定义环境变量 DefinePlugin()
+
+```
+let url = '';
+if(DEV === 'dev'){
+    url = 'http://localhost:3000'
+}else{
+    url = 'http://zhufengpeixun.cn'
+}
+
+```
+
+* webpack.config.js中引入插件（这个插件是自带的，不需要安装）
+```
+plugins:[
+    new webpack.DefinePlugin({
+        DEV:JSON.stringify('dev');
+    })
+]
+```
 
 
